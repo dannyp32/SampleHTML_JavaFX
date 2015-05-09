@@ -13,12 +13,13 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
         WebView webView = new WebView();
         String url = getClass().getResource("test.html").toExternalForm();
+
         webView.getEngine().load(url);
         borderPane.setCenter(webView);
         final Scene scene = new Scene(borderPane);
         stage.setScene(scene);
-        stage.setHeight(300);
-        stage.setWidth(250);
+        stage.setHeight(600);
+        stage.setWidth(768);
         stage.show();
 
     }

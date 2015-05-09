@@ -27,6 +27,7 @@
     border-radius: 6px;
     background-color: #ffffff;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .box:active {
@@ -37,6 +38,7 @@
 .box-title, .box-subtitle {
     text-align: center;
     font-family: sans-serif;
+    text-decoration: none;
 }
 
 .box-title {

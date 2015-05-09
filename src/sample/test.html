@@ -6,31 +6,34 @@
     <link rel="stylesheet" href="test.css" />
 </head>
     <body>
+
+    <div id="message"></div>
+
     <div class="boxes-container grid">
-        <div class="box">
+        <a class="box" onclick="changeText('Hello');">
             <div class="box-title-wrapper">
                 <div class="box-title">307 - Midterm 1</div>
                 <div class="box-subtitle"><span>25</span> Questions</div>
             </div>
-        </div>
-        <div class="box">
+        </a>
+        <a class="box" onclick="jqTest();">
             <div class="box-title-wrapper">
                 <div class="box-title">307 - Midterm 2</div>
                 <div class="box-subtitle"><span>25</span> Questions</div>
             </div>
-        </div>
-        <div class="box">
+        </a>
+        <a class="box" onclick="jq();">
             <div class="box-title-wrapper">
                 <div class="box-title">307 - Final</div>
                 <div class="box-subtitle"><span>25</span> Questions</div>
             </div>
-        </div>
-        <div class="box">
+        </a>
+        <a class="box" href="two.html">
             <div class="box-title-wrapper">
                 <div class="box-title">Longer test title wrapps to next line</div>
                 <div class="box-subtitle"><span>25</span> Questions</div>
             </div>
-        </div>
+        </a>
         <div class="clear"></div>
     </div>
 
@@ -60,5 +63,8 @@
             </div>
         </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="test.js"></script>
 </body>
 </html>
