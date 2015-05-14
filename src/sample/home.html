@@ -10,13 +10,13 @@
 <div id="message"></div>
 
 <div class="boxes-container grid">
-    <a class="box" onclick="home.updateMessage('Hello');">
+    <a class="box" onclick="exampleButtonClickThatNeedsToCallJava('Button Clicked! Calling Java function...');">
         <div class="box-title-wrapper">
             <div class="box-title">307 - Midterm 1</div>
             <div class="box-subtitle"><span>25</span> Questions</div>
         </div>
     </a>
-    <a class="box">
+    <a class="box" onclick="home.initData('calling initData function in home.js');">
         <div class="box-title-wrapper">
             <div class="box-title">307 - Midterm 2</div>
             <div class="box-subtitle"><span>25</span> Questions</div>
@@ -35,9 +35,16 @@
         </div>
     </a>
     <div class="clear"></div>
+
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="js/home.js"></script>
+<script>
+    function exampleButtonClickThatNeedsToCallJava(name)  {
+        var  message  = home.HomeViewJava.jsHandler(name);
+        $('#message').html(message);
+    }
+</script>
 </body>
 </html>

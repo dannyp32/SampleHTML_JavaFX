@@ -1,5 +1,5 @@
 package sample;
-
+import netscape.javascript.JSObject;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -11,11 +11,85 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.web.WebView;
+import javafx.concurrent.Worker.State;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 
 public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public WebView setupHomeWebView() {
+        // Create a webview for each section
+        WebView homeWebView = new WebView();
+        String homeUrl = getClass().getResource("home.html").toExternalForm();
+
+        homeWebView.getEngine().getLoadWorker().stateProperty().addListener((obs, oldValue, newValue) -> {
+            System.out.println(newValue);
+            if (newValue == State.SUCCEEDED) {
+                System.out.println("finished loading");
+
+                // This calls the javascript function initData in home.js - here we can pass in the initial data to the view
+                homeWebView.getEngine().executeScript("home.initData('initial data to be loaded will be passed here...');");
+
+                // This is creating a jsobject for my "home" object which can be found in home.js
+                JSObject jsobj = (JSObject) homeWebView.getEngine().executeScript("home");
+
+                // This adds HomeViewJava to the home object so that the HomeView java class's methods (in this case the jsHandler method in the HomeView class)
+                // can be called by javascript. I can call home.HomeViewJava from my javascript now.
+                // HomeViewJava is just the name I'm giving it. In home.html you can see how it is accessed home.HomeViewJava.jsHandler
+                jsobj.setMember("HomeViewJava", new HomeView());
+            }
+        });
+
+        homeWebView.getEngine().load(homeUrl);
+
+        return homeWebView;
+    }
+
+    public WebView setupQuestionBankWebView() {
+        WebView questionBankWebView= new WebView();
+        String questionBankURL = getClass().getResource("question-bank.html").toExternalForm();
+        questionBankWebView.getEngine().load(questionBankURL);
+
+        return questionBankWebView;
+    }
+
+    public WebView setupCreateTestWebView() {
+        WebView createTestWebView = new WebView();
+        String createTestURL = getClass().getResource("create-test.html").toExternalForm();
+        createTestWebView.getEngine().load(createTestURL);
+
+        return createTestWebView;
+    }
+
+    public WebView setupTakeTestWebView() {
+        WebView takeTestWebView = new WebView();
+        String takeTestURL = getClass().getResource("take-test.html").toExternalForm();
+        takeTestWebView.getEngine().load(takeTestURL);
+
+        return takeTestWebView;
+    }
+
+    public WebView setupGradeTestWebView() {
+        WebView gradeTestWebView = new WebView();
+        String gradeTestURL = getClass().getResource("grade-test.html").toExternalForm();
+        gradeTestWebView.getEngine().load(gradeTestURL);
+
+        return gradeTestWebView;
+    }
+
+    public WebView setupAdminToolsWebView() {
+        WebView adminToolsWebView= new WebView();
+        String adminToolsURL = getClass().getResource("admin-tools.html").toExternalForm();
+        adminToolsWebView.getEngine().load(adminToolsURL);
+
+        return adminToolsWebView;
     }
 
     @Override
@@ -44,30 +118,12 @@ public class Main extends Application {
         adminTools.setText("Administrative Tools");
 
         // Create a webview for each section
-        WebView homeWebView = new WebView();
-        String homeUrl = getClass().getResource("home.html").toExternalForm();
-        homeWebView.getEngine().load(homeUrl);
-
-        WebView questionBankWebView= new WebView();
-        String questionBankURL = getClass().getResource("question-bank.html").toExternalForm();
-        questionBankWebView.getEngine().load(questionBankURL);
-
-        WebView createTestWebView = new WebView();
-        String createTestURL = getClass().getResource("create-test.html").toExternalForm();
-        createTestWebView.getEngine().load(createTestURL);
-
-        WebView takeTestWebView = new WebView();
-        String takeTestURL = getClass().getResource("take-test.html").toExternalForm();
-        takeTestWebView.getEngine().load(takeTestURL);
-
-        WebView gradeTestWebView = new WebView();
-        String gradeTestURL = getClass().getResource("grade-test.html").toExternalForm();
-        gradeTestWebView.getEngine().load(gradeTestURL);
-
-        WebView adminToolsWebView= new WebView();
-        String adminToolsURL = getClass().getResource("admin-tools.html").toExternalForm();
-        adminToolsWebView.getEngine().load(adminToolsURL);
-
+        WebView homeWebView = setupHomeWebView();
+        WebView questionBankWebView = setupQuestionBankWebView();
+        WebView createTestWebView = setupCreateTestWebView();
+        WebView takeTestWebView = setupTakeTestWebView();
+        WebView gradeTestWebView = setupGradeTestWebView();
+        WebView adminToolsWebView = setupAdminToolsWebView();
 
         // Create a stackpane and display a webview inside its corresponding stackpane
         StackPane homeStack = new StackPane();
@@ -117,7 +173,6 @@ public class Main extends Application {
         root.getChildren().add(mainPane);
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 }
 
