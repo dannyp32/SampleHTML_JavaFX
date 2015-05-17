@@ -1,7 +1,8 @@
 package sample;
+import javafx.geometry.*;
+import javafx.geometry.Insets;
 import netscape.javascript.JSObject;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -17,6 +18,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+
+import java.awt.*;
 
 public class Main extends Application {
 
@@ -100,6 +103,16 @@ public class Main extends Application {
 
         BorderPane mainPane = new BorderPane();
         TabPane tabPane = new TabPane();
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        //give all tabs relatively same width
+        tabPane.setTabMinWidth(scene.getWidth()/8.0);
+
+        //tabs resize with window resize
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                tabPane.setTabMinWidth(newSceneWidth.doubleValue() / 8.0);
+            }
+        });
 
         // Create Tabs
         Tab home = new Tab();
@@ -165,7 +178,9 @@ public class Main extends Application {
         tabPane.getTabs().add(takeTest);
         tabPane.getTabs().add(gradeTest);
         tabPane.getTabs().add(adminTools);
-        
+
+
+
         mainPane.setCenter(tabPane);
         mainPane.prefHeightProperty().bind(scene.heightProperty());
         mainPane.prefWidthProperty().bind(scene.widthProperty());
